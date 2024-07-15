@@ -48,7 +48,7 @@ export async function updateTodo(todo: Todo): Promise<ApiDataType> {
       complete: true,
     };
 
-    const response = await fetch(`${baseUrl}/update/${todo._id}`, {
+    const response = await fetch(`${baseUrl}/status/${todo._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
