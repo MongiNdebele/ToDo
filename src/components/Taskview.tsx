@@ -41,6 +41,24 @@ function convertTo12HourFormat(time) {
 }
 
 const ItemDetailsModal = ({isVisible, item, onClose, onComplete}) => {
+  const markCompleted = async id => {
+    try {
+      const response = await fetch(`http://localhost:3005/api/status/${id}`, {
+        method: 'PATCH', // Use PATCH method to update the task status
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to mark task as completed');
+      }
+      onClose(); // Close the modal after marking completed
+    } catch (error) {
+      console.error('Error marking task as completed:', error);
+      // Handle error (show message to user)
+    }
+  };
+
   if (!item) {
     return null;
   }
@@ -67,7 +85,7 @@ const ItemDetailsModal = ({isVisible, item, onClose, onComplete}) => {
           </View>
           <TouchableOpacity
             style={styles.completebutton}
-            onPress={() => onComplete(item.id)}>
+            onPress={() => markCompleted(item._id)}>
             <Text style={styles.completebuttontext}>Mark Completed</Text>
           </TouchableOpacity>
           <Button title="Close" onPress={onClose} />

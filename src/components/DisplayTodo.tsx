@@ -12,43 +12,28 @@ interface ToDoNote {
   complete: boolean;
 }
 
-function Tick() {
+function Tick({complete}: {complete: boolean}) {
   return (
     <View>
-      <Icon
-        name="checkbox-multiple-blank-circle-outline"
-        size={30}
-        color="rgb(0,109,249)"
-        style={{paddingRight: 10}}
-      />
+      {complete ? (
+        <Icon
+          name="checkbox-multiple-marked-circle"
+          size={30}
+          color="rgb(0,109,249)"
+          style={{paddingRight: 10}}
+        />
+      ) : (
+        <Icon
+          name="checkbox-multiple-blank-circle-outline"
+          size={30}
+          color="rgb(0,109,249)"
+          style={{paddingRight: 10}}
+        />
+      )}
     </View>
   );
 }
 
-/* function Tick(done) {
-  if ((done = true)) {
-    return (
-      <View>
-        <Icon
-          name="checkbox-multiple-marked-circle"
-          size={20}
-          color="rgb(0,109,249)"
-        />
-      </View>
-    );
-  } else {
-    return (
-      <View>
-        <Icon
-          name="checkbox-multiple-blank-circle-outline"
-          size={20}
-          color="rgb(0,109,249)"
-        />
-      </View>
-    );
-  }
-} */
-// 2024-07-12T14:29:06.402Z
 function convertTo12HourFormat(time) {
   let time24 = time.substr(11, 5);
   // Extract hours and minutes from the 24-hour time string
@@ -118,7 +103,7 @@ const ToDoList: React.FC = () => {
             <View style={styles.alist}>
               <View style={styles.noteContainer}>
                 <View style={styles.tick}>
-                  <Tick />
+                  <Tick complete={item.complete} />
                   <Text style={styles.title}>{item.title}</Text>
                 </View>
                 <Text style={styles.description}>
