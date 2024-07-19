@@ -1,8 +1,16 @@
+/* module.exports = {
+  project: {
+    ios: {},
+    android: {},
+  },
+  assets: ['./assets/fonts'], // adjust according to your path
+}; */
+//try moving exports
 module.exports = {
-  assets: ['./assets/fonts/'],
-};
-
-module.exports = {
+    project: {
+    ios: {},
+    android: {},
+  },
   dependencies: {
     'react-native-vector-icons': {
       platforms: {
@@ -10,4 +18,5 @@ module.exports = {
       },
     },
   },
+  assets: ['./assets/fonts'], // adjust according to your path
 };

@@ -3,41 +3,20 @@ import {
   Modal,
   View,
   Text,
-  Button,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import convertTo12HourFormat from './timeconverter';
 
 function Clock() {
   return (
     <View>
-      <Icon name="clock" size={20} color="rgb(136,136,136)" />
+      <Icon name="clock" size={25} color="rgb(136,136,136)" />
     </View>
   );
-}
-
-function convertTo12HourFormat(time) {
-  let time24 = time.substr(11, 5);
-  // Extract hours and minutes from the 24-hour time string
-  let [hours, minutes] = time24.split(':');
-
-  // Convert hours from string to number
-  hours = parseInt(hours, 10);
-
-  // Determine the period (AM or PM)
-  let period = hours >= 12 ? 'PM' : 'AM';
-
-  // Convert hours to 12-hour format
-  hours = hours % 12;
-  hours = hours ? hours : 12; // Handle midnight (0 hours)
-
-  // Format the hours and minutes with leading zeros if necessary
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-
-  // Construct the 12-hour formatted time string
-  return `${hours}:${minutes} ${period}`;
 }
 
 const ItemDetailsModal = ({isVisible, item, onClose, onComplete}) => {
@@ -69,28 +48,30 @@ const ItemDetailsModal = ({isVisible, item, onClose, onComplete}) => {
       transparent={true}
       visible={isVisible}
       onRequestClose={onClose}>
-      <View style={styles.modalcontainer}>
-        <View style={styles.modalcontent}>
-          <View style={styles.mdtitletime}>
-            <Text style={styles.modalTitle}>{item.title}</Text>
-            <View style={styles.timeandicon}>
-              <Clock />
-              <Text style={styles.timetext}>
-                {convertTo12HourFormat(item.updatedAt)}
-              </Text>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.modalcontainer}>
+          <View style={styles.modalcontent}>
+            <View style={styles.mdtitletime}>
+              <Text style={styles.modalTitle}>{item.title}</Text>
+              <View style={styles.timeandicon}>
+                <Clock />
+                <Text style={styles.timetext}>
+                  {convertTo12HourFormat(item.updatedAt)}
+                </Text>
+              </View>
             </View>
+            <View style={styles.descripspace}>
+              <Text style={styles.descriptext}>{item.description}</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.completebutton}
+              onPress={() => markCompleted(item._id)}>
+              <Text style={styles.completebuttontext}>Mark Completed</Text>
+            </TouchableOpacity>
+            {/* <Button title="Close" onPress={onClose} /> */}
           </View>
-          <View style={styles.descripspace}>
-            <Text style={styles.descriptext}>{item.description}</Text>
-          </View>
-          <TouchableOpacity
-            style={styles.completebutton}
-            onPress={() => markCompleted(item._id)}>
-            <Text style={styles.completebuttontext}>Mark Completed</Text>
-          </TouchableOpacity>
-          <Button title="Close" onPress={onClose} />
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
@@ -107,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 35,
     width: '100%',
-    flex: 0.3,
+    flex: 0.25,
   },
   mdtitletime: {
     flexDirection: 'row',
@@ -118,89 +99,49 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     alignSelf: 'flex-start',
     color: 'rgb(40,40,40)',
+    fontFamily: 'Outfit-SemiBold',
   },
   timeandicon: {
     flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent:'center',
   },
   timetext: {
     color: 'rgb(142,142,142)',
     marginLeft: 5,
+    fontFamily: 'Outfit-Regular',
+    fontSize: 15,
   },
   descriptext: {
     color: 'rgb(142,142,142)',
+    fontFamily: 'Outfit-Regular',
+    fontSize: 20,
   },
   descripspace: {
-    padding: 5,
-    // backgroundColor: 'blue',
-    flex: 1,
+    // padding: 5,
+    flex: 0.8,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   completebutton: {
-    flex: 0.4,
+    flex: 0.33,
     backgroundColor: 'rgb(0,109,249)',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     marginTop: 10,
     alignSelf: 'stretch',
+    justifyContent: 'center',
   },
   completebuttontext: {
     fontSize: 20,
-    fontWeight: 'bold',
+    //fontWeight: 'bold',
     color: 'white',
     alignSelf: 'center',
+    fontFamily: 'Outfit-SemiBold',
   },
 });
 
 export default ItemDetailsModal;
-
-/* import React from 'react';
-import {View, Text, StyleSheet, Button, Alert} from 'react-native';
-
-interface NoteDetailsProps {
-  route: {
-    params: {
-      title: string;
-      description: string;
-      updatedAt: string;
-    };
-  };
-}
-
-const NoteDetailsScreen: React.FC<NoteDetailsProps> = ({route}) => {
-  const {title, description, updatedAt} = route.params;
-
-  const handleMarkCompleted = () => {
-    // Implement logic to mark note as completed
-    // For demonstration, let's alert a message
-    Alert.alert(`Marking "${title}" as completed`);
-  };
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text>{updatedAt}</Text>
-      <Text style={styles.description}>{description}</Text>
-      <Button title="Mark Completed" onPress={handleMarkCompleted} />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 18,
-  },
-});
-
-export default NoteDetailsScreen; */

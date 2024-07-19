@@ -1,59 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import ItemDetailsModal from './Taskview';
-import {SafeAreaView} from 'react-native-safe-area-context';
-
-interface ToDoNote {
-  _id: string; // Assuming your backend returns a unique ID like _id
-  title: string;
-  description: string;
-  updatedAt: string;
-  complete: boolean;
-}
-
-function Tick({complete}: {complete: boolean}) {
-  return (
-    <View>
-      {complete ? (
-        <Icon
-          name="checkbox-multiple-marked-circle"
-          size={30}
-          color="rgb(0,109,249)"
-          style={{paddingRight: 10}}
-        />
-      ) : (
-        <Icon
-          name="checkbox-multiple-blank-circle-outline"
-          size={30}
-          color="rgb(0,109,249)"
-          style={{paddingRight: 10}}
-        />
-      )}
-    </View>
-  );
-}
-
-function convertTo12HourFormat(time) {
-  let time24 = time.substr(11, 5);
-  // Extract hours and minutes from the 24-hour time string
-  let [hours, minutes] = time24.split(':');
-
-  // Convert hours from string to number
-  hours = parseInt(hours, 10);
-
-  // Determine the period (AM or PM)
-  let period = hours >= 12 ? 'PM' : 'AM';
-
-  // Convert hours to 12-hour format
-  hours = hours % 12;
-  hours = hours ? hours : 12; // Handle midnight (0 hours)
-  // Format the hours and minutes with leading zeros if necessary
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  // Construct the 12-hour formatted time string
-  return `${hours}:${minutes} ${period}`;
-}
+import convertTo12HourFormat from './timeconverter';
+import Tick from './Icons';
+import {ToDoNote} from './types';
+import styles from '/Users/mongiwandebele/Desktop/ToDoList/Front/MyApp/src/components/DisplayToDoStyles.tsx';
 
 const ToDoList: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -93,12 +44,11 @@ const ToDoList: React.FC = () => {
   }, []); // Empty dependency array ensures useEffect runs only once
 
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <FlatList
         data={notes}
         keyExtractor={item => item._id}
         renderItem={({item}) => (
-          // <View style={styles.alist}>
           <TouchableOpacity onPress={() => openModal(item)}>
             <View style={styles.alist}>
               <View style={styles.noteContainer}>
@@ -112,8 +62,8 @@ const ToDoList: React.FC = () => {
               </View>
             </View>
           </TouchableOpacity>
-          // </View>
         )}
+        scrollEnabled={true}
       />
       <ItemDetailsModal
         isVisible={modalVisible}
@@ -121,46 +71,9 @@ const ToDoList: React.FC = () => {
         onClose={closeModal}
         onComplete={markCompleted}
       />
-    </SafeAreaView>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    flex: 1,
-  },
-  tick: {
-    padding: 10,
-    flexDirection: 'row',
-  },
-  alist: {
-    flex: 1,
-    borderColor: 'black',
-    borderRadius: 30,
-    padding: 10,
-  },
-  noteContainer: {
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 20,
-    borderColor: 'white',
-    backgroundColor: 'white',
-    flex: 2,
-    width: '100%',
-  },
-  title: {
-    fontFamily: 'Lexend-Medium',
-    fontSize: 20,
-    fontWeight: 'semibold',
-  },
-  description: {
-    fontFamily: 'Lexend-Medium',
-    fontSize: 16,
-    color: 'rgb(136,136,136)',
-    paddingLeft: 50,
-  },
-});
 
 export default ToDoList;
 

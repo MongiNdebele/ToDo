@@ -2,13 +2,24 @@
 
 import React, {useState} from 'react';
 import {
+  Image,
   View,
   Text,
   TextInput,
   TouchableOpacity,
   Modal,
   StyleSheet,
+  TouchableWithoutFeedback,
 } from 'react-native';
+
+function MyImage() {
+  return (
+    <Image
+      style={styles.openButton}
+      source={require('/Users/mongiwandebele/Desktop/ToDoList/Front/MyApp/assets/images/Adjusted2.png')}
+    />
+  );
+}
 
 const PopupForm = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -17,7 +28,7 @@ const PopupForm = () => {
 
   const handleSubmit = async () => {
     // Handle form submission here, e.g., send data to backend, etc.
-
+    // add validation e.g. character lengths max 100, description max 350, reject google react native form validation
     const toDoData = {
       title: title,
       description: description,
@@ -55,9 +66,9 @@ const PopupForm = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.openButton}
+        //style={styles.openButton}
         onPress={() => setModalVisible(true)}>
-        <Text style={styles.openButtonText}>+</Text>
+        <MyImage />
       </TouchableOpacity>
 
       <Modal
@@ -67,34 +78,31 @@ const PopupForm = () => {
         onRequestClose={() => {
           setModalVisible(false);
         }}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Create Todo</Text>
-            <TextInput
-              style={styles.nameinput}
-              placeholder="Task name"
-              value={title}
-              onChangeText={text => setTitle(text)}
-            />
-            <TextInput
-              style={[styles.desinput]}
-              placeholder="Add Description"
-              multiline
-              value={description}
-              onChangeText={text => setDescription(text)}
-            />
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={handleSubmit}>
-              <Text style={styles.submitButtonText}>Create</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Create Todo</Text>
+              <TextInput
+                style={styles.nameinput}
+                placeholder="Task name"
+                value={title}
+                onChangeText={text => setTitle(text)}
+              />
+              <TextInput
+                style={[styles.desinput]}
+                placeholder="Add description"
+                multiline
+                value={description}
+                onChangeText={text => setDescription(text)}
+              />
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={handleSubmit}>
+                <Text style={styles.submitButtonText}>Create</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
@@ -107,16 +115,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   openButton: {
-    backgroundColor: 'rgb(0,109,249)',
-    borderRadius: 10,
-    width: '20%',
-    height: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  openButtonText: {
-    fontSize: 50,
-    color: 'white',
+    resizeMode: 'cover',
+    width: 100,
+    height: 100,
   },
   modalContainer: {
     flex: 1,
@@ -128,46 +129,55 @@ const styles = StyleSheet.create({
     flex: 0.5,
     backgroundColor: 'white',
     padding: 20,
-    borderRadius: 30,
+    borderRadius: 40,
     width: '100%',
     alignItems: 'center',
   },
   modalTitle: {
+    fontFamily: 'Outfit-SemiBold',
     fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 18,
+    marginTop: 8,
     alignSelf: 'flex-start',
   },
   nameinput: {
     flex: 0.2,
     width: '100%',
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
+    borderColor: 'rgb(230,230,230)',
+    padding: 12,
     marginBottom: 19,
-    borderRadius: 15,
+    borderRadius: 20,
+    fontFamily: 'Outfit-Regular',
+    fontSize: 18,
   },
   desinput: {
-    flex: 0.6,
+    flex: 0.55,
     width: '100%',
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
+    borderColor: 'rgb(230,230,230)',
+    padding: 15,
     marginBottom: 10,
-    borderRadius: 15,
+    borderRadius: 20,
+    fontFamily: 'Outfit-Regular',
+    fontSize: 18,
+    color: 'rgb(145,145,145)',
+    textAlignVertical: 'top',
   },
   submitButton: {
     flex: 0.2,
     backgroundColor: 'rgb(0,109,249)',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     marginTop: 10,
     alignSelf: 'stretch',
+    justifyContent: 'center',
   },
   submitButtonText: {
-    fontSize: 20,
+    fontSize: 23,
     color: 'white',
     alignSelf: 'center',
+    fontFamily: 'Outfit-Medium',
   },
   closeButton: {
     marginTop: 10,

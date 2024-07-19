@@ -1,4 +1,4 @@
-export interface Todo {
+export interface ToDoNote {
   _id: string;
   name: string;
   description: string;
@@ -8,12 +8,12 @@ export interface Todo {
 }
 
 export interface TodoProps {
-  todo: Todo;
+  todo: ToDoNote;
 }
 
 export type ApiDataType = {
   message: string;
   status: string;
-  todos: Todo[];
-  todo?: Todo;
+  todos: ToDoNote[];
+  todo?: ToDoNote;
 };
