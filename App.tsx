@@ -4,6 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from './src/components/Homepage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Badge from './src/components/badge';
 
 const screenOptions = () => ({
   headerStyle: {
@@ -23,6 +24,7 @@ const screenOptions = () => ({
       onPress={() => console.log('Notification button pressed')}
     />
   ),
+  DrawerBarBadge: 2,
 });
 
 const Drawer = createDrawerNavigator();
@@ -32,7 +34,7 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator screenOptions={screenOptions} initialRouteName="Home">
         <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Notifications" component={Home} />
+        <Drawer.Screen name="Delete" component={Home} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

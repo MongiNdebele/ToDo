@@ -1,10 +1,10 @@
-import {Todo, ApiDataType} from './types';
+import {ToDoNote, ApiDataType} from './types';
 
 const baseUrl: string = 'http://localhost:3005/api';
 
-export async function updateTodo(todo: Todo): Promise<ApiDataType> {
+export async function updateTodo(todo: ToDoNote): Promise<ApiDataType> {
   try {
-    const todoUpdate: Pick<Todo, 'complete'> = {
+    const todoUpdate: Pick<ToDoNote, 'complete'> = {
       complete: !todo.complete,
     };
 

@@ -41,7 +41,7 @@ const ToDoList: React.FC = () => {
     };
 
     fetchNotes(); // Call the fetchNotes function when component mounts
-  }, []); // Empty dependency array ensures useEffect runs only once
+  }, [closeModal]); // Empty dependency array ensures useEffect runs only once
 
   return (
     <>
