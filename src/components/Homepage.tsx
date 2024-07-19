@@ -2,8 +2,10 @@ import React from 'react';
 import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
 import PopupForm from '/Users/mongiwandebele/Desktop/ToDoList/Front/MyApp/src/components/AddTodo.tsx';
 import ToDoList from '/Users/mongiwandebele/Desktop/ToDoList/Front/MyApp/src/components/DisplayTodo';
+import Badge from './badge';
 
 function Home() {
+  const badgeCount = 3;
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}>Today</Text>

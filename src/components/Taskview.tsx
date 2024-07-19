@@ -44,7 +44,7 @@ const ItemDetailsModal = ({isVisible, item, onClose, onComplete}) => {
 
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={isVisible}
       onRequestClose={onClose}>

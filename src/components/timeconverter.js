@@ -20,9 +20,4 @@ function convertTo12HourFormat(time24) {
   return `${hours}:${minutes} ${period}`;
 }
 
-// Example usage:
-let time24 = '14:18';
-let time12 = convertTo12HourFormat(time24);
-console.log(time12); // Output: 02:18 PM
-
 export default convertTo12HourFormat;
